@@ -15,16 +15,28 @@ def count_char(contents):
             countchar[lcasechar] += 1
     return countchar
 
+def sort_on(dict):
+    return dict["num"]
+
+def chars_dict_to_sorted_list(num_chars_dict):
+    sorted_list = []
+    for ch in num_chars_dict:
+        sorted_list.append({"char": ch, "num": num_chars_dict[ch]})
+    sorted_list.sort(reverse=True, key=sort_on)
+    return sorted_list
+
 def main():
-    with open("books/frankenstein.txt") as f:
+    with open(path) as f:
         file_contents = f.read()
         wordcount = count_words(file_contents)
         file_char_count = count_char(file_contents)
-        print(" --- Begin report of books/frankenstein.txt ---")
+        sorted_char_count = chars_dict_to_sorted_list(file_char_count)
+        print(f"--- Begin report of {path} ---")
         print(f"{wordcount} words found in the document")
-        for key, value in file_char_count.items():
-            if key.isalpha():
-                print(f"The '{key}' character was found {value} times")    
+        for item in sorted_char_count:
+            if item["char"].isalpha():
+                print(f"The '{item["char"]}' character was found {item["num"]} times")    
     return
 
+path = "books/frankenstein.txt"
 main()
